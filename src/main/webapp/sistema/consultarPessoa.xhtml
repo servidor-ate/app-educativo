@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<ui:composition template="/template/layoutBase.xhtml">
+
+	<ui:define name="content">
+
+		<div id="breadcrumb" style="width:35%;margin-top:-50px;margin-left:25px;margin-bottom:10px;">
+			<p:breadCrumb>
+				<p:menuitem value="Categories" url="#" />
+				<p:menuitem value="Consulta" url="#" />
+			</p:breadCrumb>
+		</div>
+
+		<!-- Pop up que será exibida quando um registro for selecionado para edição -->
+		<p:dialog header="Editar cadastro de pessoa" id="dialog-modal-editar"
+			widgetVar="dialog-modal-editar" modal="true" height="400px"
+			width="550px">
+
+			<ui:include src="/sistema/editarPessoa.xhtml" />
+
+		</p:dialog>
+
+		<!-- Caixa de diálogo exibida antes de efetuar edição/remoção de registros -->
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="não" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+
+		<h:form style="margin:auto;margin-left:2%;" id="form-consulta">
+
+			<strong><h:outputLabel value="Pessoas cadastradas" /></strong>
+
+			<p:dataTable id="dataTable-registros" var="pessoa"
+				value="#{consultarPessoaControlador.pessoas}" rows="5"
+				paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10" style="width:98%;">
+
+				<p:column headerText="Código">
+					<h:outputText value="#{pessoa.codigo}" />
+				</p:column>
+
+				<p:column headerText="Nome">
+					<h:outputText value="#{pessoa.nome}" />
+				</p:column>
+
+				<p:column headerText="Sexo">
+					<h:outputText value="#{pessoa.sexo}" />
+				</p:column>
+
+				<p:column headerText="Cadastro">
+					<h:outputText value="#{pessoa.dataCadastro}">
+
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Email" style="width:200px;">
+					<h:outputText value="#{pessoa.email}" />
+				</p:column>
+
+				<p:column headerText="Endereço" style="width:200px;">
+					<h:outputText value="#{pessoa.endereco}" />
+				</p:column>
+
+				<p:column headerText="Origem">
+					<h:outputText value="#{pessoa.origemCadastro}" />
+				</p:column>
+
+				<p:column headerText="Usuário">
+					<h:outputText value="#{pessoa.usuarioModelo.usuario}" />
+				</p:column>
+
+				<p:column headerText="" style="width:25px;">
+
+					<p:commandButton icon="ui-icon-pencil" title="Editar registro"
+						ajax="true"
+						actionListener="#{consultarPessoaControlador.editar(pessoa)}"
+						oncomplete="PF('dialog-modal-editar').show();"
+						update="dialog-modal-editar">
+						<p:confirm header="Confirmar operação!"
+							message="Deseja alterar o registro?" icon="ui-icon-alert" />
+					</p:commandButton>
+
+				</p:column>
+
+				<p:column headerText="" style="width:25px;">
+
+					<p:commandButton icon="ui-icon-trash" title="Remover registro"
+						ajax="true"
+						actionListener="#{consultarPessoaControlador.excluirRegistro(pessoa)}"
+						update="@form">
+						<p:confirm header="Confirmar operação!"
+							message="Deseja remover o registro?" icon="ui-icon-alert" />
+					</p:commandButton>
+
+				</p:column>
+
+			</p:dataTable>
+
+			<div id="msg" style="width: 25%;">
+				<p:messages showDetail="true" autoUpdate="true" closable="true"
+					severity="info" />
+			</div>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+</html>

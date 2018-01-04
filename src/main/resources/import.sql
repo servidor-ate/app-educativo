@@ -1,0 +1,1 @@
+INSERT INTO TbUsuario (USUARIO, SENHA) VALUES ('admin', '123456');

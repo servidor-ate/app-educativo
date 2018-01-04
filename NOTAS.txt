@@ -1,0 +1,22 @@
+# Referência:
+http://www.ciceroednilson.com.br/criando-uma-aplicacao-java-com-jsf-primefaces-cdi-e-jpa-parte-3-criando-o-projeto-com-jsf-no-maven/
+
+# Referência para habilitar logs SQL JPA:
+http://blog.ffrizzo.com/posts/jboss-datasource-show-sql/
+http://stackoverflow.com/questions/26467446/how-to-activate-jdbc-logs-in-wildfly # Definir nível DEBUG para os logs
+
+# Endereço home
+http://localhost:8080/web-jsf-primefaces-0.0.1-SNAPSHOT/sistema/home.xhtml
+
+# Endereço página inicial
+http://localhost:8080/web-jsf-primefaces-0.0.1-SNAPSHOT/
+
+# Acesso aplicação
+usuário: admin
+senha: 123456
+
+# Comando para deploy
+mvn clean install/package -DskipTests=true wildfly:deploy
+
+# Comando para undeploy
+mvn wildfly:undeploy
